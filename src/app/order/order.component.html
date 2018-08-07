@@ -1,0 +1,128 @@
+<!--INICIO DO CONTEUDO-->
+<section class="content-header">
+</section>
+
+<section class="content">
+  <section class="invoice">
+        <!--
+        <pre>{{form.valid | json}}{{form.value | json}}</pre>
+        -->
+        <form [formGroup]="orderForm" novalidate>
+          <div class="row">
+            <div class="col-xs-12">
+              <h2 class="page-header">
+                <i class="fa fa-shopping-cart"></i> Finalize o seu pedido
+              </h2>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-9">
+              <p class="lead">Seus Dados:</p>
+            </div>
+
+            <div class="col-xs-3">
+              <span class="help-block pull-right has-error-block" *ngIf="orderForm.hasError('emailNotMatch')"><i class="fa fa-remove"></i>Emails não conferem !</span>
+            </div>
+
+            <div class="col-xs-9 col-sm-6">
+              <mt-input-container errorMsg="Obrigatório. Min 5 (caracteres) !" label="Nome">
+                <input class="form-control" formControlName="name" autocomplete="off" placeholder="Nome"/>
+              </mt-input-container>
+            </div>
+            <div class="col-xs-9 col-sm-3">
+              <mt-input-container errorMsg="E-Mail obrigatorio/invalido !" label="E-Mail">
+                <input class="form-control" formControlName="email" autocomplete="off" placeholder="E-Mail" />
+              </mt-input-container>
+            </div>
+            <div class="col-xs-9 col-sm-3">
+              <mt-input-container errorMsg="E-Mail obrigatorio/invalido !" label="Confimação E-Mail">
+                <input class="form-control" formControlName="emailConfirm" autocomplete="off" placeholder="Confirmação E-Mail" />
+              </mt-input-container>
+            </div>
+          </div>
+
+          <div class="row invoice-info">
+            <div class="col-xs-9">
+              <p class="lead">Endereço de Entrega:</p>
+            </div>
+            <div class="col-xs-9 col-sm-6">
+              <mt-input-container errorMsg="Obrigatório. Min 5 (caracteres) !" label="Endereço">
+                <input class="form-control" formControlName="address" autocomplete="off" placeholder="Endereço"/>
+              </mt-input-container>
+            </div>
+            <div class="col-xs-9 col-sm-3">
+              <mt-input-container errorMsg="Obrigatório e somente numero!" label="Número">
+                <input class="form-control" formControlName="numero" autocomplete="off" placeholder="Número" pattern="^[0-9]*$"/>
+              </mt-input-container>
+            </div>
+            <div class="col-xs-9 col-sm-3">
+              <mt-input-container errorMsg="" label="Complemento">
+                <input class="form-control" formControlName="complemento" autocomplete="off" placeholder="Complemento"/>
+              </mt-input-container>
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+
+          <!-- Table row -->
+          <div class="row">
+            <div class="col-xs-12">
+              <p class="lead">Itens do Pedido:</p>
+            </div>
+            <mt-order-items [items]="getCartItems()"
+              (plusItem)="plusItem($event)"
+              (lessItem)="lessItem($event)"
+              (removeItem)="removeItem($event)"
+            ></mt-order-items>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+
+          <div class="row">
+            <!-- accepted payments column -->
+            <div class="col-sm-6 col-xs-12">
+              <p class="lead">Formas de Pagamento:</p>
+
+                <div class="form-group">
+                  <mt-radio [options]="payOptions" formControlName="payOption" ></mt-radio>
+                </div>
+
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-6 col-xs-12">
+              <p class="lead">Frete e Total:</p>
+
+              <div class="table-responsive">
+                <table class="table">
+                  <tbody><tr>
+                    <th style="width:50%">Itens:</th>
+                    <td class="text-right">{{valorTotal() | currency : "BRL" : true}}</td>
+                  </tr>
+                  <tr>
+                    <th>Frete:</th>
+                    <td class="text-right">R$ 8,00</td>
+                  </tr>
+                  <tr>
+                    <th>Total:</th>
+                    <td class="text-right">{{valorTotal() + 8 | currency : "BRL" : true}}</td>
+                  </tr>
+                </tbody></table>
+              </div>
+            </div>
+            <!-- /.col -->
+          </div>
+        </form>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <button class="btn btn-success pull-right"  (click)="checkOrder(orderForm.value)"
+              [disabled]="!orderForm.valid || valorTotal() === 0">
+                <i class="fa fa-credit-card"></i> Concluir Pedido
+            </button>
+          </div>
+        </div>
+
+    </section>
+</section>
+<!-- FIM DO CONTEUDO-->

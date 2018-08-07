@@ -1,0 +1,35 @@
+<!-- INíCIO do CONTEÚDO -->
+<section class="content-header">
+  <h1>
+    Todos os Restaurantes
+    <a (click)="searchVisibility()" class="search-link pull-right">
+      <span *ngIf="inputSearch.value">
+        <small>"{{inputSearch.value}}" </small>
+      </span>
+      <i class="fa fa-search"></i>
+    </a>
+  </h1>
+  <!-- Barra de Busca -->
+  <div class="row">
+    <div class="col-xs-12 search-bar" [@search-visibility]="searchState">
+      <form [formGroup]="searchForm">
+        <div class="form-group">
+          <input formControlName="searchControl" #inputSearch type="text" class="form-control" placeholder="O que vc esta procurando ?" />
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="content">
+  <div class="row">
+    <div *ngFor="let r of rests" class="col-xs-12 col-sm-6 ">
+      <mt-restaurant [restaurant]="r"></mt-restaurant>
+    </div>
+    <div *ngIf="rests?.length === 0" class="col-xs-12">
+      <p class="lead text-center">Não foram encotrados itens para a sua busca !</p>
+    </div>
+  </div>
+</section>
+
+<!-- FIM  do CONTEÚDO -->
